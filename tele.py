@@ -5,7 +5,7 @@ from Group import Group
 from Student import Student
 import Error as e
 
-API_token = '5738711983:AAE5qf6nLnmzwwoNBpNiulG0q-WkGpnHvYQ'
+API_token = ''
 allGroups = {}
 admin_ID = "964015471"
 
