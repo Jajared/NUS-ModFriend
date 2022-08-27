@@ -4,9 +4,12 @@ import NUSBot as nus
 from Group import Group
 from Student import Student
 import Error as e
+import LoadData
+import pickle
+from datetime import datetime
 
-API_token = ''
-allGroups = {}
+API_token = '5738711983:AAE5qf6nLnmzwwoNBpNiulG0q-WkGpnHvYQ'
+allGroups = LoadData.loadFile()
 admin_ID = "964015471"
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -50,6 +53,7 @@ def updateLink(update, context):
         update.message.reply_text("Link uploaded!")
         newStudent = Student(link, currentGroup, getUsername(update), studentID)
         currentGroup.add_user(newStudent)
+    saveBackUpData()
         
 
 #Send a message when the command /edit is issued
@@ -87,6 +91,8 @@ def getUserID(update):
 
 def getFreeTime(update, context):
     group_id = getGroupID(update)
+    if group_id not in allGroups:
+        raise e.GroupError
     currentGroup = allGroups[group_id]
     context.bot.send_message(chat_id = update.effective_chat.id, text= currentGroup.showFreeTime())
 
@@ -100,6 +106,12 @@ def getGroupID(update):
         return update.message.chat.id
     except:
         raise e.GroupError
+
+def saveBackUpData():
+    currentTime = datetime.now()
+    currentTimeString = currentTime.strftime("%m%d%Y")
+    with open(f"modFriendsData{currentTimeString}.pkl", 'wb') as f:
+        pickle.dump(allGroups, f)
 
 #Start the bot
 def main():

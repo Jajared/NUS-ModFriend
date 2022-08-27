@@ -1,6 +1,6 @@
 #GroupError raised when invalid group/group not created
 class GroupError(Exception):
-    def __init__(self, msg='Group not found', *args, **kwargs):
+    def __init__(self, msg='Group not found. Use /start first', *args, **kwargs):
         super().__init__(msg, *args, **kwargs)
 
 #UserError raised when invalid user/user not created
