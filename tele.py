@@ -8,7 +8,7 @@ import LoadData
 import pickle
 from datetime import datetime
 
-API_token = '5738711983:AAE5qf6nLnmzwwoNBpNiulG0q-WkGpnHvYQ'
+API_token = ''
 allGroups = LoadData.loadFile()
 admin_ID = "964015471"
 
