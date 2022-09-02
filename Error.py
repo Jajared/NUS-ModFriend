@@ -17,3 +17,8 @@ class InvalidLinkError(Exception):
 class InvalidActionError(Exception):
     def __init__(self, msg='Invalid Action! Use /edit first to edit your NUSMods timetable link', *args, **kwargs):
         super().__init__(msg, *args, **kwargs)
+
+#InvalidModError when mod provided is invalid
+class InvalidModError(Exception):
+    def __init__(self, msg = "Could not find data! Please check your link again!", *args, **kwargs):
+        super().__init__(msg, *args, **kwargs)

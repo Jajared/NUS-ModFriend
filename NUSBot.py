@@ -20,11 +20,14 @@ def getModuleLessons(jsonresult):
 #Gets and formats all lesson timings into a list of tuples
 def getLessonTiming(moduleCode, moduleLessons):
     result = []
-    lessonsList = getModuleLessons(getModuleRequest(moduleCode))
-    for lessonType, lessonCode in moduleLessons.items():
-        lessonTime = [(moduleCode, lessonCode, lessonType, (x['day'], x['startTime'], x['endTime'])) for x in lessonsList if (x["lessonType"] == lessonTypesLst.get(lessonType) and x["classNo"] == lessonCode)]
-        result.extend(lessonTime)
-    return result
+    try:
+        lessonsList = getModuleLessons(getModuleRequest(moduleCode))
+        for lessonType, lessonCode in moduleLessons.items():
+            lessonTime = [(moduleCode, lessonCode, lessonType, (x['day'], x['startTime'], x['endTime'])) for x in lessonsList if (x["lessonType"] == lessonTypesLst.get(lessonType) and x["classNo"] == lessonCode)]
+            result.extend(lessonTime)
+        return result
+    except IndexError:
+        return result
 
 #Formats NUSMods link for processing
 def getUserLessons(link):
@@ -43,8 +46,11 @@ def getUserLessons(link):
     modList = (link.split("share?")[1]).split("&")
     result = {}
     for mod in modList:
-        moduleCode, lessonDetail = mod.split("=")
-        result[moduleCode] = getLessonList(lessonDetail)
+        try:
+            moduleCode, lessonDetail = mod.split("=")
+            result[moduleCode] = getLessonList(lessonDetail)
+        except:
+            raise e.InvalidModError
     return result
 
 #Accessors for lesson data representation (e.g (modCode, lessonCode, lessonType, (Day, startTime, endTime)))

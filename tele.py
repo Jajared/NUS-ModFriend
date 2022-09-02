@@ -8,7 +8,7 @@ import LoadData
 import pickle
 from datetime import datetime
 
-API_token = ''
+API_token = '5738711983:AAE5qf6nLnmzwwoNBpNiulG0q-WkGpnHvYQ'
 allGroups = LoadData.loadFile()
 admin_ID = "964015471"
 
@@ -74,6 +74,10 @@ def errorHandler(update, context):
     #Sends error message to group/user
     context.bot.send_message(
     chat_id = getGroupID(update),
+    text = message
+    )
+    context.bot.send_message(
+    chat_id = admin_ID,
     text = message
     )
 

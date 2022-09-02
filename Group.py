@@ -26,45 +26,48 @@ class Group:
             return lessonTime[1]
 
         def calculateDayFreeTime(startTime, endTime):
-            startTime.sort()
-            endTime.sort()
             freeTimeResult = []
-            firstLesson = min(startTime)
-            lastLesson = max(endTime)
+            if startTime == [] and endTime == []:
+                freeTimeResult.append(('0800', '2000'))
+            else:
+                startTime.sort()
+                endTime.sort()
+                firstLesson = min(startTime)
+                lastLesson = max(endTime)
 
-            #free time from start of day to first lesson
-            if firstLesson > '0800':
-                freeTimeResult.append(('0800', firstLesson))
-            #free time from last lesson to end of day
-            if lastLesson < '2000':
-                freeTimeResult.append((lastLesson, '2000'))
+                #free time from start of day to first lesson
+                if firstLesson > '0800':
+                    freeTimeResult.append(('0800', firstLesson))
+                #free time from last lesson to end of day
+                if lastLesson < '2000':
+                    freeTimeResult.append((lastLesson, '2000'))
+                    
+                def isOutOfRangeBreak():
+                    return j == len(endTime) or i == len(startTime)
                 
-            def isOutOfRangeBreak():
-                return j == len(endTime) or i == len(startTime)
-            
-            i, j = 0, -1
-            while True:
-
-                j += 1
-                if isOutOfRangeBreak():
-                    break 
-
-                while startTime[i] <= endTime[j]:
-                    i += 1
-                    if isOutOfRangeBreak():
-                        break 
-
+                i, j = 0, -1
                 while True:
+
                     j += 1
                     if isOutOfRangeBreak():
                         break 
-                    if (endTime[j] > startTime[i]) and (endTime[j-1] != startTime[i]):
-                        freeTimeResult.append((endTime[j-1], startTime[i]))
-                    if endTime[j] >= startTime[i]:
-                        break
-                    
-                if isOutOfRangeBreak():
-                    break 
+
+                    while startTime[i] <= endTime[j]:
+                        i += 1
+                        if isOutOfRangeBreak():
+                            break 
+
+                    while True:
+                        j += 1
+                        if isOutOfRangeBreak():
+                            break 
+                        if (endTime[j] > startTime[i]) and (endTime[j-1] != startTime[i]):
+                            freeTimeResult.append((endTime[j-1], startTime[i]))
+                        if endTime[j] >= startTime[i]:
+                            break
+                        
+                    if isOutOfRangeBreak():
+                        break 
 
             return freeTimeResult
 
